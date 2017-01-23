@@ -1,0 +1,182 @@
+\documentclass{article}
+
+\usepackage{minted} % Good for syntax highlighting but complex to install
+% \usepackage{verbose} % Allows you to write code directly but no syntax highlighting
+% Algorithm packages for ...
+\usepackage{algorithm}  % the algorithm environment (similar to a figure environment)
+\usepackage{algorithmicx} % for algorithmic environment with commands useful in pseudo-code
+\usepackage{algpseudocode} % Additional commands such as \Function{}{}
+% Additional packages
+\usepackage{fullpage,latexsym,amsmath,amsfonts}
+\usepackage{enumerate} % List package
+\input{macros.tex}
+
+\title{CS/Math 111 Assignment 1}
+\author{Katherine Way, 861083769} % Replace with your name and SID
+\date{} % Replace with the date you submit (or remove and date file is generated will appear)
+
+\begin{document}
+
+\maketitle
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+Let $W(n)$ be the number of times ``whatsup'' is printed by Algorithm~\textsc{WhatsUp} (see below) on input $n$.
+Determine the asymptotic value of $W(n)$.
+
+\begin{algorithm}[h]
+    \caption{WhatsUp}
+    \begin{algorithmic}[1]
+        \Function{WhatsUp}{$n: \mbox{\bf integer}$}
+            \For{$i \leftarrow 1 \text{\textbf{ to }} 2n$}
+                \For{$j \leftarrow 1 \text{\textbf{ to }} (i+1)^2$}
+                    \State print(``whatsup'')
+                \EndFor
+            \EndFor
+        \EndFunction
+    \end{algorithmic}
+\end{algorithm}
+
+\noindent
+Your solution must consist of the following steps, include a brief justification for each step:
+%
+\begin{enumerate}[(a)]
+    \item First express $W(n)$ using a summation notation $\sum$.
+    \item Next, give a closed-form formula for $W(n)$. (A ``closed-form formula'' should only involve a small number of arithmetic operations; in particular, it \textbf{should not} have any summation symbols.)
+    \item  Finally, give the asymptotic value of $W(n)$ using the $\Theta$-notation. 
+\end{enumerate}
+%
+
+\smallskip
+\noindent
+\emph{Note:} If you need any summation formulas for this problem, you are allowed to look them up.
+\end{problem}
+
+\indent \indent \indent \indent\indent \indent \indent \indent\indent \indent \indent \indent
+n$\in$Z, i=1.\\ \\\\
+ A.  \indent \indent \indent \indent j=1,j=2,j=3,j=4  \big\} ${(i+1)}^2$  \\
+ \indent  \indent \indent \indent \indent   j=1, j=9 \big\} ${(i+9)}^2$ \\
+   \indent  \indent \indent \indent \indent $\sum_{i=1}^{2n} {(i+1)}^2 $ \\
+   \indent  \indent \indent \indent \indent $\sum_{i=1}^{n} 1 = n$ \   $\sum_{i=1}^{n} i = \frac{n(n+1)}{2} $ \ $\sum_{i=1}^{n}{i}^2 = \frac{n(n+1)(2n+1)}{6} $ \\
+   \indent  \indent \indent \indent \indent   $\sum_{i=1}^{2n} {(i+1)}^2= {i}^2+2i+2 $ \\\\
+    \indent  \indent  \indent   \indent \indent \indent \indent $\sum_{i=2}^{2n+1} {i}^2$\\\\ B. \indent \indent \indent \indent$\sum_{i=2}^{2n+1} {i}^2= \frac{(2n+1)((2n+1)+1)(2(2n+1)+1)}{6} -1$ \\
+  \indent  \indent \indent \indent \indent   = $\frac{(2n+1)(2n+2)(4n+3)}{6}$ \\\\
+ \indent  \indent \indent \indent \indent    = $\frac{16{n}^3+36{n}^2+26n+6}{6}-1$\\\\
+C.\indent \indent \indent \indent W(n) $\in$ $O({n}^3)$\\\\
+
+(credit to Frank work in discussion)
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+Consider a sequence defined recursively as $T_0 = 1$, $T_1 = 2$, and $T_n = T_{n-1}+3T_{n-2}$ for
+$n\ge 2$. 
+
+Prove that $T_n = O(2.4^n)$ and $T_n = \Omega(2.3^n)$.
+
+\smallskip
+\noindent
+\emph{Hint:} First, prove by induction that $\half\cdot 2.3^n \le T_n \le 2.4^n$ for all $n\ge 0$.
+\end{problem}
+
+First, prove that $T_n \leq {2.4}^n\ n\geq 0 $ \\
+\indent Base case here: n=0, $T_n \leq {2.4}^n\ , 1\leq 1 $ \\
+\indent n=1: $T_1 \leq {2.4}^1\ 2\leq 2.4 $ \\
+\indent Inductive : Assume that $T_n \leq {2,4}^n \ for\ n \leq k \ $ \\
+\indent Prove that $T_{k+1} \leq {2.4}^{k+1}$\\
+\indent $T_{k+1} \leq T_k +3T_{k-1}$\\
+\indent  $T_{k+1} \leq {2.4}^k + 3 * {2.4}^{k-1} $\\
+\indent   $T_{k+1} \leq {2.4}^{k-1}(2.4+3)$\\
+\indent    $T_{k+1} \leq {2.4}^{k-1}{2.4}^2$\\
+\indent     $T_{k+1} \leq {2.4}^{k+1}$\\
+\indent    Since $F_{k+1} = O({2.4}^{k+1}),$ then $F_n =O({2.4}^n) $\\
+\indent    Next, prove $T_n \geq (1/2){2.3}^n, n\geq 0 $\\
+\indent    Base case: n=0, $T_0 \geq (1/2){2.3}^0, 1 \geq 1/2 $\\
+\indent    n=1: $T_1 \geq (1/2){2.3}^1, 2 \geq 2.3/2 $\\
+\indent    Induction Step: Assume that $T_n \geq (1/2){2.3}^n for\  n\leq k $\\
+\indent    Prove $T_{k+1} \geq (1/2){2.3}^{k+1} $\\
+\indent    $T_{k+1} \geq T_k +3T_{k-1} $\\
+\indent    $T_{k+1} \geq (1/2){2.3}^k+3((1/2){2.3}^{k-1}) $\\
+\indent    $T_{k+1} \geq (1/2){2.3}^{k-1}(2.3+3) $\\
+\indent    $T_{k+1} \geq (1/2) {2.3}^{k-1}{2.3}^2 $\\
+\indent    $T_{k+1} \geq (1/2) {2.3}^{k+1} $\\
+\indent    Since $T_{k+1}= \Omega({2.3}^{k+1}), then T_n = \Omega  ({2.3}^n)$
+
+(credit to Josh-Some guy from Chung) 
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+Give the asymptotic values of the following functions, using the $\Theta$-notation:
+%
+\begin{enumerate}[(a)]
+    \item $7n^2 + 2n^4 + 3n + 1$
+    \item $5/n + \log_3 n + 11\sqrt{n}$
+    \item $2n ( \log n + n^2) + 3n^4/\log n$
+    \item $25n^{12} +  1.1^n + n^3\log^4 n$
+    \item $n^72^n + 5\cdot 3^n$
+\end{enumerate}
+%
+Justify your answer.
+
+\noindent
+(Here, you don't need to give a complete rigorous proof.  Give only an informal explanation using asymptotic relations between the functions $n^c$, $\log n$, and $c^n$.)
+\end{problem}
+\\\\\\
+A. f(n)\indent= $\Theta {n}^4 $ \\
+  \indent \indent \indent = $ O{n}^4$ \\
+ \indent \indent \indent  = $ \Omega {n}^4 $\\\\
+B. f(n) \indent = $\theta$($\sqrt{n}$)\\
+\indent \indent \indent = O ($\sqrt{n}$)\\
+\indent \indent \indent = $\Omega$  ($\sqrt{n}$)\\\\
+C. f(n) \indent = $ \Theta (n( log n +{n}^2)) $\\
+ \indent \indent \indent    = $ \O (n( log n +{n}^2)) $\\
+ \indent \indent \indent    =$ \Omega (n( log n +{n}^2)) $\\\\
+D. f(n) \indent = $ \Theta ({1.1}^n) $\\
+   \indent \indent \indent    =$ \O ({1.1}^n) $\\
+ \indent \indent \indent      =$ \Omega ({1.1}^n) $\\\\
+E.  F(n) \indent = $ \Theta (({2/3})^n) $\\
+ \indent \indent \indent       = $ \O (({2/3})^n) $\\
+ \indent \indent \indent        = $ \Omega (({2/3})^n) $\\
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\paragraph{Reminders.}
+\begin{itemize}
+    \item Remember that only {\LaTeX} papers are accepted. 
+    \item The solution environment from macros.tex is available for you to use.
+\begin{minted}{latex}
+\begin{solution}
+\end{solution}
+\end{minted}
+    \item If you don't want to set up and maintain your own \LaTeX environment you can use an online editor such as sharelatex.com or overleaf.com
+\end{itemize}
+
+\end{document}
+
+
+\item $7n^2 + 2n^4 + 3n + 1$\\
+   F(n)= $\Theta {n}^4 $ \\
+   = $ O{n}^4$ \\
+   = $ \Omega {n}^4 $\\
+   
+    \item $5/n + \log_3 n + 11\sqrt{n}$\\
+    F(n)= $ \Theta (\sqrt{n}) $\\
+    = $ O (\sqrt{n}) $\\
+    = $ \Omega ( \sqrt{n}) $\\
+    
+    \item $2n ( \log n + n^2) + 3n^4/\log n$\\
+    F(n) = $ \Theta (n( log n +{n}^2)) $\\
+    = $ \O (n( log n +{n}^2)) $\\
+    =$ \Omega (n( log n +{n}^2)) $\\
+    
+    \item $25n^{12} +  1.1^n + n^3\log^4 n$ \\
+    F(n) = $ \Theta ({1.1}^n) $\\
+    =$ \O ({1.1}^n) $\\
+    =$ \Omega ({1.1}^n) $\\
+    
+    \item $n^72^n + 5\cdot 3^n$\\
+    F(n) = $ \Theta (({2/3})^n) $\\
+     = $ \O (({2/3})^n) $\\
+      = $ \Omega (({2/3})^n) $\\
