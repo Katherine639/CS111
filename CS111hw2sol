@@ -1,0 +1,118 @@
+\begin{solution}
+\noindent (a) Identify what it means to decode an RSA message.
+
+\begin{itemize}
+    %
+    \item Both the encrypting and decrypting of RSA do the same thing. They depend on two modifiers called "keys", to change the message they receive as a parameter.
+    \item We label these as $P(u)$ = $(e, n)$ for encryption, and $S(v)$ = $(d, n)$ for decryption.
+    \item This takes on the form: 
+        \begin{align*}
+            P(u) = u^{e}\mod{n}\\
+            S(v) = v^{d}\mod{n}\\
+        \end{align*}
+    \item In order to decode an RSA message (decryption), we need to figure out the "secret key" pair for $S(v)$ which is not provided for us.
+    \item In order to discover this secret decryption key, we need to utilize two secret primes labeled as $p$ and $q$.
+    \item The product of $p$ and $q$ make up $n$ but $p$ and $q$ also make up the components of $\Phi(t)$ where $\Phi(t)$ = ($p$ - 1) $\cdot$ ($q$ - 1)
+    \item $\Phi(t)$ is important because to develop $S(v)$ we need to find $d$ which is described as: $d$ = $e^{-1}(\mod\Phi(t))$
+    \item Once we can find what value $d$ is, we can plug it in into our formula for handling RSA decryption which is: $S(v)$ = $S(v) = v^{d}\mod{t}$
+    \item There's one additional step to this as well, which is the miniature cipher at the very end and converting our numbers to letters by a shift of 2. Where b = 2, c = 3 (so on and so forth)
+\end{itemize}
+
+(b) How do you find the values $p$, $q$, $\Phi(t)$, and $d$?
+
+\begin{itemize}
+    \item In order to discover $p$ & $q$, we begin by looking at prime factors of $n$.
+        \begin{align*} 
+        n = 7 \cdot 11 \\
+        n = 1 \cdot 77 \\
+        \end{align*}
+    \item Since neither 1 or 77 are prime factors, the only possible pair of prime factors must be $p = 7$ and $q = 11$
+    \item Generally with larger values of n that RSA is made for, it's near impossible to lock down on a pair of prime factors for $p$ and $q$. Consider this a special case!
+    \item Once we have our $p$ and $q$, we need to use it to find our $\Phi(t)$ which can be represented as:
+        \begin{equation*}
+            \Phi(t) = (p - 1) \cdot (q - 1) = 6 \cdot 10 = 60
+        \end{equation*}
+    \item Let k be some integer that acts as a multiple. The last step we need to make to find our secret key $d$ is to apply:
+        \begin{align*}
+            d = e^{-1}(\mod{\Phi(t)})\\
+            d\cdot e = (1 + k\cdot(p - 1)\cdot(q - 1))\\
+            13\cdot d = (1 + 8\cdot(60))\\
+            d = 481/13\\
+            d = 37\\
+        \end{align*}
+    \item The secret key is $d$ = 37.
+\end{itemize}
+
+(c) Solve for the first 3 numbers in the cipher:
+\begin{itemize}
+    \item Number 1:
+    \begin{align*}
+        S(v) = v^{d}(\mod{n})\\
+        S(10) = 10^{37}(\mod{77})\\
+        S(10) = 10\cdot(10^{6})^{6}(\mod{77})\\
+        S(10) = 10\cdot(1)^{6}(\mod{77})\\
+        S(10) = 10\\
+    \end{align*}
+    \item Number 1 solution: S(10) = 'i'\\\\
+    
+    \item Number 2:
+    \begin{align*}
+        S(v) = v^{d}(\mod{n})\\
+        S(7) = 7^{37}(\mod{77})\\
+        S(7) = 7\cdot(7^{6})^{6}(\mod{77})\\
+        S(7) = 7\cdot(70^{6})(\mod{77})\\
+        S(7) = 7\cdot(70)(\mod{77})\\
+        S(7) = 28\\
+    \end{align*}
+    \item Number 2 solution: S(7) = ' '\\\\
+    
+    \item Number 3:
+    \begin{align*}
+        S(v) = v^{d}(\mod{n})\\
+        S(58) = 58^{37}(\mod{77})\\
+        S(58) = 58\cdot(58^{6})^{6}(\mod{77})\\
+        S(58) = 58\cdot(36)^{6}(\mod{77})\\
+        S(58) = 58\cdot(36)(\mod{77})\\
+        S(58) = 9
+    \end{align*}
+    \item Number 3: solution: S(58) = 'h'\\\\
+\end{itemize}
+
+(d) Bob's quote in full is: "i have never let schooling interfere with my education" taken from the late Mark Twain.
+I believe this goes more along the lines of schooling is great and all but don't depend on it entirely. There's more to education than just school, which comes from other experiences.\\\\
+
+(e) Program(s) with hard copy.
+
+\begin{lstlisting}[language=C++]
+        // Turn decryption back into characters
+        inline char caesar_decryption(int a){
+            return a != 28 ? char(a - 2 + 'a') : ' '; 
+        }
+        
+        // Decrypting the text directly into characters
+        char RSAdecrypt(int dmsg, int d, int n){
+    	    int tot = 1;
+        	for(int i = 0; i < d; ++i){
+        		tot *= dmsg;	
+        		tot %= n;
+        	}
+        	return caesar_decryption(tot);
+        }
+        
+        // Implementation of the functions above
+        int main(){
+
+        	vector<int> encrypted_message = {10, 7, 58, 30, 23, 62, 7, 64, 62, 23, 62, 61, 7, 41, 62, 21, 7, 49, 75, 7, 69, 53, 58, 37, 37, 41, 10, 64, 50, 7, 10, 64, 21, 62, 61, 35, 62, 61, 62, 7, 52, 10, 21, 58, 7, 49, 75, 7, 62, 26, 22, 53, 30, 21, 10, 37, 64};
+        
+        	int d = 37;
+        	int n = 77;
+        	int size = encrypted_message.size();
+        
+        	for(int i = 0; i < size; ++i){
+        		cout << RSAdecrypt(encrypted_message[i], d, n);
+        	}
+        }
+// For the complete implementation:
+//https://github.com/ucrRichard/CS111_RSA_Implementation.git
+\end{lstlisting}
+\end{solution}
