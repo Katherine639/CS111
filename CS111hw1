@@ -1,0 +1,222 @@
+\documentclass{article}
+
+\usepackage{fullpage,latexsym,picinpar,amsmath,amsfonts}
+
+\input{macros.tex}
+
+\begin{document}
+
+%%%%%%%%%%%%%%%%%%%%%%%%% Header
+\student{Richard Duong}{861281974}
+%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\centerline{\large \bf CS/MATH111 ASSIGNMENT 1}
+%\centerline{due Thursday}
+
+\vskip 0.1in
+%\noindent{\bf Individual assignment:} Problems 1 and 2.
+
+%\noindent{\bf Group assignment:} Problems 1,2 and 3.
+
+\vskip 0.2in
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+Give the exact and asymptotic formula for the number $f(n)$ of
+letters ``A" printed by Algorithm~\textsc{PrintAs} below.
+Your solution must consist of the following steps:
+%
+\begin{description}
+\item{(a)} First express $f(n)$ using a summation notation $\sum$.
+\item{(b)} Next, give a closed-form formula for $f(n)$.
+\item{(c)}  Finally, give the asymptotic value of the
+number of A's (using the $\Theta$-notation.)
+\end{description}
+\noindent
+Include justification for each step. 
+
+\smallskip
+\noindent
+\emph{Note:} If you need any summation formulas for this problem, you are allowed to look them up, and do not need to prove.
+
+\begin{tabbing}
+aa \= aa \= aa \= aa \= aa \= aa \= \kill
+\textbf{Algorithm} \textsc{PrintAs} $(n: \mbox{\bf integer})$ \\
+      \> \textbf{for} $i \leftarrow 1$ \textbf{to} $2n+1$
+                         \textbf{do} \\
+      \> \> \textbf{for} $j \leftarrow 1$ \textbf{to} $(i+3)^2$ \textbf{do} print(``A")\\
+      
+aa \= aa \= aa \= aa \= aa \= aa \= \kill
+      \> \textbf{for} $i \leftarrow 1$ \textbf{to} $(2n+1)^2$
+                         \textbf{do} \\
+      \> \> \textbf{for} $j \leftarrow 1$ \textbf{to} $i+3$ \textbf{do} print(``A")
+\end{tabbing}
+\end{problem}
+
+\begin{solution}
+If we rewrite the nested summations
+\begin{equation*} \sum_{i=1}^{n}\sum_{j=1}^{n}(2i + 1)(j + 3)^{2}
+\end{equation*}
+and
+\begin{equation*} \sum_{i=1}^{n}\sum_{j=1}^{n}(2i + 1)^{2}(j + 3) 
+\end{equation*}
+We get: 
+\begin{equation*}
+\sum_{j=1}^{n} (2j^3 + 13j^2 + 24j + 9) + \sum_{j=1}^{n} (4j^3 + 16j^2 + 13j + 3)
+\end{equation*}
+\pmb{Solution 1a)}
+\begin{equation*}
+\pmb{\sum_{j=1}^{n} (6j^3 + 29j^2 + 37j + 12)}
+\end{equation*}\\\\
+
+\noindent Which can be rewritten in the closed form formula as:\\
+\noindent\pmb{Solution 1b)}
+\begin{equation*}
+\pmb{f(n) = 6j^3 + 29j^2 + 37j + 12}
+\end{equation*}\\\\\\\\
+
+\noindent In order to get $\Theta-notation$ of a closed function, we need to identify if the upper bounds ($O-notation$) and lower bounds($\Omega-notation$) close in on one general location. \\\\
+
+\noindent To identify the upper bound or $O(n)$, we use the formula:\\
+\begin{equation*}
+O(g_1(n) + g_2(n)) = O(max(g_1(n), g_2(n)))
+\end{equation*}\\
+
+\noindent Which puts our 2 summed functions in O notation as:
+\begin{align*}
+f(n) = (2j^3 + 13j^2 + 24j + 9) + (4j^3 + 16j^2 + 13j + 3)\\
+f_1(n) = (2j^3 + 13j^2 + 24j + 9)\\
+f_2(n) = (4j^3 + 16j^2 + 13j + 3)\\
+\pmb{O(n) = O(f_2(n)) = n^{3}}\\
+\end{align*}\\
+
+\noindent The same can be said about $\Omega-notation$, we use the formula:\\
+\begin{equation*}
+\Omega(h_1(n) + h_2(n)) = \Omega(min(h_1(n), h_2(n)))
+\end{equation*}\\
+
+\noindent Which puts our 2 summed functions in O notation as:
+\begin{align*}
+f(n) = (2j^3 + 13j^2 + 24j + 9) + (4j^3 + 16j^2 + 13j + 3)\\
+f_1(n) = (2j^3 + 13j^2 + 24j + 9)\\
+f_2(n) = (4j^3 + 16j^2 + 13j + 3)\\
+\pmb{\Omega(n) = \Omega(f_1(n)) = n^{3}}\\
+\end{align*}
+
+\noindent Since $\Omega(n)$ and $O(n)$ are equal, we can say that:\\
+\pmb{Solution 1c)}
+\begin{equation*}
+\pmb{\Theta(n) = n^{3}}
+\end{equation*}
+\end{solution}\\\\\\\\\\\\\\\\\\\\
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+(a) Use mathematical induction to prove that $3^n \ge n2^n$ for $n\ge 0$. 
+(Note: dealing with the base case may require some thought.)
+
+\smallskip
+\noindent (b) 
+Consider a sequence defined recursively as
+$B_0 = 1$, $B_1 = 2$, and $B_n = B_{n-1}+3B_{n-2}$ for
+$n\ge 2$. Prove that $B_n = O(2.4^n)$ and $B_n = \Omega(2.3^n)$.
+
+\smallskip
+\noindent
+\emph{Hint:} 
+First, prove by induction that $B_n \ge \frac{1}{2} \cdot 2.3^n$ and  $B_n \le 2.4^n$ for all $n\ge 0$.
+\end{problem}
+
+\begin{solution}\\\\
+\pmb{Basis:}\\
+\noindent For $3^n\geq n2^n$, let n = 0.
+
+\begin{align*}
+3^{0} \geq (0)2^{0}\\
+1 \geq 0\\
+\end{align*}
+
+\noindent\pmb{Inductive Hypothesis:}\\
+\noindent Let $3^n\geq n2^n$, be true for n = k.\\
+
+\noindent\pmb{Inductive Step:}\\
+\noindent Then $3^n\geq n2^n$, is true if n = k + 1 holds true.\\
+
+\begin{align*}
+3^{k + 1} \geq (k+1)\cdot2^{k+1}\\
+3^{k}\cdot3 \geq k\cdot2^{k+1} + 2^{k+1}\\
+3\cdot(\pmb{k*2^k}) \geq k\cdot2^{k}\cdot2 + 2^{k+1}\\\
+3\cdot k \cdot2^{k} \geq 2\cdot k \cdot2^{k} + 2\cdot2^{k}\\
+3\cdot k \cdot2^{k} \geq (2\cdot k + 2)\cdot 2^{k}\\
+\pmb{3\cdot k \geq 2\cdot k + 2}\\
+\end{align*}\\
+
+\noindent\pmb{Solution 2a)}\\
+\noindent\pmb{Conclusion:}\\
+\noindent Because the equation above holds true for n = k + 1, the statement proves true.\\\\\\\\\\\\\\\\\\\\\\\\\\
+\end{solution}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{problem}
+Give the asymptotic values of the
+following functions, using the $\Theta$-notation:
+%
+\begin{description}
+%
+\item{(a)} $ (n^3 + 5 n - 10)( 4 n^3 - n)$
+\item{(b)} $3 + 2n \sqrt{n} + 1/(\log^2 n)$
+\item{(c)} $7n^5\log n + 9 n\log^5n + 15n^6$
+\item{(d)} $15n^5 + n^2\cdot 2^n + n^3\log n$
+\item{(e)} $n^3 \cdot \left( \dfrac{7}{6} \right) ^n + n^5 \cdot 4^n$
+%
+\end{description}
+%
+Justify your answers.
+
+\begin{solution}\\
+\end{solution}
+
+\noindent\pmb{Solution 3a)}\\
+\begin{equation*}\pmb{\theta(n) = n^{6}}\end{equation*}\\
+\noindent Because to solve both O(n) and $\Omega(n)$ you need to multiply the 2 polynomials and take O(n) or $\Omega(n)$ of that function.\\
+
+\begin{align*}
+O((n^{3} + 5n - 10) \cdot (4n^{3} - n)) = \pmb{O(n) = n^{6}}\\
+\Omega((n^{3} + 5n - 10) \cdot (4n^{3} - n)) = \pmb{\Omega(n) = n^{6}}\\
+\pmb{\theta(n) = \Omega(n) = \O(n) = n^{6}}\\
+\end{align*}
+
+
+\noindent\pmb{Solution 3b)}\\
+\begin{equation*}\pmb{\theta(n) = n^{3/2}}\end{equation*}\\
+\noindent To solve both O(n) and $\Omega(n)$ you need to take the max or min of each term respectively.
+
+\begin{align*}
+O((3 + 2n\sqrt{n} + 1/(log^{2})) = O(max(3, 2n\sqrt{n}, 1/(log^{2})))\\
+O(2n\sqrt{n}) = \pmb{O(n) = n^{3/2}}\\
+\Omega((3 + 2n\sqrt{n} + 1/(log^{2})) = \Omega(min(3, 2n\sqrt{n}, 1/(log^{2})))\\
+\Omega(3) = \pmb{\Omega(n) = 1}\\
+\end{align*}
+
+\noindent If $\Omega(n)$ $\neq$ O(n), then $\Theta(n)$ = O(n)\\\\
+\begin{equation*}\pmb{\theta(n) = O(n) = n^{3/2}} \end{equation*}
+
+%(Here, you don't need to give a complete rigorous proof.
+%Give only an informal explanation using asymptotic
+%relations between the functions $n^c$, $\log n$, and $c^n$.)
+\end{problem}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\vskip 0.1in
+\paragraph{Submission.}
+To submit the homework, you need to upload the pdf file to Gradescope.
+
+\paragraph{Reminders.}
+Remember that only {\LaTeX} papers are accepted. 
+
+
+\end{document}
